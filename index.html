@@ -97,6 +97,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .sec-h{display:flex;align-items:baseline;gap:10px;padding:6px 8px 4px;font-weight:900;color:var(--ink)}
 .sec-h b{font-family:"Arial Black",system-ui,sans-serif;font-size:24px;color:#fff;background:var(--pur);border-radius:12px;padding:0 12px;line-height:34px;box-shadow:0 3px 0 #4a30b0}
 .sec-h span{font-size:16px}
+.nchips{position:sticky;top:0;z-index:7;display:flex;gap:6px;padding:4px 6px;margin:0 0 4px;background:rgba(255,255,255,.92);border-radius:999px;box-shadow:0 3px 8px rgba(0,0,0,.12);width:max-content;max-width:100%}
+.chip.n{min-height:44px;min-width:56px;font-size:17px;padding:0 10px}
 .card.dim{opacity:.45;filter:grayscale(.55)}
 .chips{flex:none;display:flex;gap:8px;align-items:center;margin:0 0 6px}
 .chip{min-height:46px;min-width:52px;padding:0 12px;border-radius:999px;background:#fff;font-weight:900;font-size:22px;font-family:"Arial Black",system-ui,sans-serif;box-shadow:0 4px 0 rgba(0,0,0,.18);color:var(--ink)}
@@ -126,6 +128,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .lineup{display:grid;grid-template-columns:repeat(9,1fr);gap:2px 3px;width:100%;max-width:560px;background:rgba(255,255,255,.35);border-radius:18px;padding:8px 6px}
 .lineup .fg{width:100%;animation:popin .5s backwards,bob .6s ease-in-out infinite alternate}
 @keyframes popin{from{transform:scale(0) translateY(40px)}to{transform:none}}
+.lineup.xl{grid-template-columns:repeat(12,1fr)}
 .lineup .me{filter:drop-shadow(0 0 6px #ffc83d) drop-shadow(0 0 2px #fff)}
 /* ---------- card ---------- */
 .rcard{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;gap:8px}
@@ -274,6 +277,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .bench.big .bslot{width:clamp(36px,10vw,56px)}
 .bench .row.dense .bslot{width:clamp(18px,5.2vw,28px)}
 .bench.big .row.dense .bslot{width:clamp(26px,7.6vw,42px)}
+.bench .row.xdense .bslot{width:clamp(14px,4.3vw,24px)}
+.bench.big .row.xdense .bslot{width:clamp(20px,5.9vw,34px)}
 .cushion{height:12px;border-radius:99px;background:#c93a8f;margin:0 6px;position:relative}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
 .fly{position:absolute;left:0;top:0;will-change:transform}
@@ -323,7 +328,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
   .rcard{flex-direction:row;flex-wrap:wrap;justify-content:center;align-content:center;gap:6px 14px}.rtitle{width:100%}.rhero{flex:0 0 36%;min-height:0;height:46%}.rrows{flex:1;min-width:300px;max-width:420px}.rbtns{width:100%;justify-content:center}
   .bigbtn{min-height:68px;font-size:30px;margin-top:4px}
   .btn{min-height:52px;font-size:21px}
-  .center-col{gap:4px}.lineup{grid-template-columns:repeat(19,1fr)}
+  .center-col{gap:4px}.lineup{grid-template-columns:repeat(19,1fr)}.lineup.xl{grid-template-columns:repeat(29,1fr)}
   .out-title{font-size:30px}.btncol{flex-direction:row;flex-wrap:wrap}.btncol .btn{flex:1;min-width:30%;font-size:17px}
   .hop-crowd{display:none}.hop-prompt{min-height:52px}
   .champ-stage{width:min(40vw,34vh*1.1)}
@@ -438,6 +443,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .sp-t{width:clamp(66px,19vw,84px);height:clamp(66px,19vw,84px);border-radius:20px;color:#fff;font-weight:900;font-size:clamp(40px,12vw,54px);font-family:"Arial Black",system-ui,sans-serif;text-shadow:0 3px 0 rgba(0,0,0,.3);box-shadow:0 7px 0 rgba(0,0,0,.25),inset 0 -5px 0 rgba(0,0,0,.14),inset 0 5px 0 rgba(255,255,255,.3);border:3px solid rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center}
 .sp-t:active{transform:translateY(4px)}
 .sp-t.used{visibility:hidden}
+.sp-tray.many{gap:8px}.sp-tray.many .sp-t{width:clamp(48px,14.4vw,64px);height:clamp(48px,14.4vw,64px);font-size:clamp(28px,8.6vw,40px);border-radius:16px}
+.sp-numtile{width:min(46%,170px);height:100%;max-height:140px;border-radius:24px;border:5px solid #fff;box-shadow:0 6px 0 rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;color:#fff;font:900 clamp(44px,15vw,82px)/1 "Arial Black",system-ui,sans-serif;text-shadow:0 4px 0 rgba(0,0,0,.28)}
+.sp-pic.hop .sp-numtile{animation:bnc .35s 3 alternate}
 .sp-t.bad{animation:shk .1s 4 alternate;background:#999!important}
 .sp-t.hint{animation:hintp .5s infinite alternate}
 /* rocket */
@@ -654,7 +662,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 <div id="setupm" class="modal"><div class="panel">
   <h2>Show setup</h2>
   <div class="statline" id="setup-note"></div>
-  <div class="optgrp"><div class="optlbl">Who competes?</div><div class="optcol" id="opt-field"><button data-v="letters">Letters<small>26 letters</small></button><button data-v="numbers">Numbers<small>11 numbers: 0 to 10</small></button><button data-v="both">Letters + Numbers<small>37 contestants</small></button></div></div>
+  <div class="optgrp"><div class="optlbl">Who competes?</div><div class="optcol" id="opt-field"><button data-v="letters">Letters<small>26 letters</small></button><button data-v="numbers">Numbers<small>31 numbers: 0 to 30</small></button><button data-v="both">Letters + Numbers<small>57 contestants</small></button></div></div>
   <div class="optgrp"><div class="optlbl">Show length</div><div class="optgrid" id="opt-len"><button data-v="short">Short<small>3 rounds + final</small></button><button data-v="medium">Medium<small>5 rounds + final</small></button><button data-v="long">Long<small>7 rounds + final</small></button><button data-v="surprise">Surprise me<small>random order</small></button></div></div>
   <button class="btn blue" id="btn-pick">Mini-games: 13 on</button>
   <button class="btn green" id="btn-setupclose">Done</button>
@@ -681,9 +689,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 <script>
 (function(){
 'use strict';
-/* ===== ART: 26 letter + 10 number original stroke-built characters (index 0-25 = A-Z, 26-36 = 0-10) ===== */
+/* ===== ART: 26 letter + 31 number original stroke-built characters (index 0-25 = A-Z, 26-56 = 0-30) ===== */
 var LET='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-var TOTAL=37;
+var TOTAL=57,NUMN=31;
 function SYM(i){return i<26?LET[i]:String(i-26)}
 function isNum(i){return i>=26}
 var INK='#2b2250';
@@ -716,7 +724,7 @@ X:{d:'M24 24 L76 98 M76 24 L24 98',f:[50,61],lg:[28,72],ar:[14,40,86,40]},
 Y:{d:'M24 24 L50 60 L76 24 M50 60 L50 98',f:[50,68],lg:[42,58],ar:[16,40,84,40]},
 Z:{d:'M24 26 L76 26 L24 98 L76 98',f:[50,62],lg:[28,72],ar:[13,40,87,90]}
 ,
-'0':{w:22,d:'M50 24 Q30 24 30 61 Q30 98 50 98 Q70 98 70 61 Q70 24 50 24 Z',f:[50,61],lg:[38,62],ar:[14,60,86,60]},
+'0':{w:32,d:'M50 24 Q34 24 34 61 Q34 98 50 98 Q66 98 66 61 Q66 24 50 24 Z',f:[50,61],lg:[38,62],ar:[10,60,90,60]},
 '1':{d:'M34 42 L54 24 L54 98 M32 98 L76 98',f:[54,58],lg:[42,66],ar:[38,62,70,62]},
 '2':{d:'M26 44 Q26 24 50 24 Q74 24 74 44 Q74 58 52 76 L26 98 L76 98',f:[50,46],lg:[36,66],ar:[10,44,90,44]},
 '3':{d:'M26 36 Q34 24 50 24 Q72 24 72 41 Q72 58 46 60 Q76 60 76 79 Q76 98 50 98 Q32 98 24 86',f:[50,41],lg:[34,64],ar:[12,38,90,80]},
@@ -725,15 +733,22 @@ Z:{d:'M24 26 L76 26 L24 98 L76 98',f:[50,62],lg:[28,72],ar:[13,40,87,90]}
 '6':{d:'M70 30 Q62 24 50 24 Q26 24 26 62 Q26 98 50 98 Q74 98 74 76 Q74 54 50 54 Q26 54 26 74',f:[50,76],lg:[36,64],ar:[10,50,90,80]},
 '7':{d:'M24 26 L76 26 L44 98',f:[62,46],lg:[38,52],ar:[14,34,88,40]},
 '8':{d:'M50 24 Q28 24 28 41 Q28 58 50 60 Q74 58 74 41 Q74 24 50 24 Z M50 60 Q24 62 24 80 Q24 98 50 98 Q76 98 76 80 Q76 62 50 60',f:[50,42],lg:[34,66],ar:[10,42,90,80]},
-'9':{d:'M30 92 Q38 98 50 98 Q74 98 74 60 Q74 24 50 24 Q26 24 26 46 Q26 68 50 68 Q74 68 74 48',f:[50,46],lg:[36,64],ar:[10,42,90,72]},
-'10':{w:20,d:'M14 42 L26 28 L26 98 M68 24 Q50 24 50 61 Q50 98 68 98 Q86 98 86 61 Q86 24 68 24 Z',f:[67,61],lg:[26,70],ar:[14,60,96,60]}
+'9':{d:'M30 92 Q38 98 50 98 Q74 98 74 60 Q74 24 50 24 Q26 24 26 46 Q26 68 50 68 Q74 68 74 48',f:[50,46],lg:[36,64],ar:[10,42,90,72]}
 };
+// two-digit numbers 10-30: each digit is the single-digit centerline squeezed to 45% width and set side by side (thin strokes, small face between them)
+(function(){
+  function sc(d,cx){var xs=[];d.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g,function(m,x){xs.push(+x);return m});var c0=(Math.min.apply(0,xs)+Math.max.apply(0,xs))/2;
+    return d.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g,function(m,x,y){return (Math.round((cx+(x-c0)*.45)*10)/10)+' '+y})}
+  for(var n=10;n<=30;n++){var t=String(n)[0],o=String(n)[1];
+    GL[String(n)]={w:12.5,d:sc(GL[t].d,26.5)+' '+sc(GL[o].d,73.5),f:[50,60],fs:.62,lg:[34,66],ar:[8,60,92,60]}}
+})();
 var WORDS={A:'Apple',B:'Banana',C:'Cat',D:'Dog',E:'Elephant',F:'Fish',G:'Giraffe',H:'Hat',I:'Ice cream',J:'Jelly',K:'Kite',L:'Lion',M:'Moon',N:'Nest',O:'Octopus',P:'Pizza',Q:'Queen',R:'Rainbow',S:'Sun',T:'Turtle',U:'Umbrella',V:'Van',W:'Whale',X:'Xylophone',Y:'Yo-yo',Z:'Zebra'};
-var NWORDS=['Zero: a round hero','One shiny sun','Two cute ducks','Three triangles','Four fluffy paws','Five fingers','Six dice dots','Seven rainbow colors','Eight wiggly arms','Nine cat lives','Ten tiny toes'];
-for(var _k=0;_k<11;_k++)WORDS[String(_k)]=NWORDS[_k];
-var LINES={A:'I love crunchy apples!',B:'Boing boing boing!',C:'Meow! Wait, I\'m a C!',D:'Woof! I mean... D!',E:'I\'m extra excited!',F:'Swish! I\'m fast like a fish!',G:'I\'m tall as a giraffe!',H:'Hee hee! Nice hat!',I:'Itty bitty but mighty!',J:'Jelly legs! Jumpy jumps!',K:'Let\'s go fly a kite!',L:'Roar! I\'m a lion. Sort of.',M:'Moon walks are my thing!',N:'Nap time? Never!',O:'Oh my! I\'m so round!',P:'Pizza power!',Q:'Quack! Quick! Quiet!',R:'Rainbow zoom!',S:'Sunny smiles!',T:'Slow and steady wins!',U:'Under my umbrella!',V:'Vroom vroom!',W:'Wiggle waggle wow!',X:'X marks the fun!',Y:'Yo-yo! Yippee!',Z:'Zoom zoom zig-zag!','0':'Zero? I am a hero!','1':'Number one! Look at me!','2':'Two is twice the fun!','3':'Three cheers! Hip hip hooray!','4':'Four is the best, no more, no less!','5':'High five! Give me five!','6':'Six little spots, ha ha ha!','7':'Lucky seven! Wheee!','8':'Eight arms means eight hugs!','9':'Nine lives? I will take them all!','10':'Ten toes and I wiggle them all!'};
+var NWORDS=['Zero: a round hero','One shiny sun','Two cute ducks','Three triangles','Four fluffy paws','Five fingers','Six dice dots','Seven rainbow colors','Eight wiggly arms','Nine cat lives','Ten tiny toes','Eleven kickers on a soccer team','Twelve eggs in a dozen','Thirteen lucky stars','Fourteen days make two weeks','Fifteen jumping frogs','Sixteen crayons in a box','Seventeen shiny seashells','Eighteen holes of mini golf','Nineteen bouncy balls','Twenty fingers and toes','Twenty-one yummy cookies','Twenty-two twinkly lights','Twenty-three tiny trains','Twenty-four hours in a day','Twenty-five cents in a quarter','Twenty-six letters in ABC','Twenty-seven sleepy sheep','Twenty-eight days in February','Twenty-nine dancing dinosaurs','Thirty days in September'];
+for(var _k=0;_k<NUMN;_k++)WORDS[String(_k)]=NWORDS[_k];
+var LINES={A:'I love crunchy apples!',B:'Boing boing boing!',C:'Meow! Wait, I\'m a C!',D:'Woof! I mean... D!',E:'I\'m extra excited!',F:'Swish! I\'m fast like a fish!',G:'I\'m tall as a giraffe!',H:'Hee hee! Nice hat!',I:'Itty bitty but mighty!',J:'Jelly legs! Jumpy jumps!',K:'Let\'s go fly a kite!',L:'Roar! I\'m a lion. Sort of.',M:'Moon walks are my thing!',N:'Nap time? Never!',O:'Oh my! I\'m so round!',P:'Pizza power!',Q:'Quack! Quick! Quiet!',R:'Rainbow zoom!',S:'Sunny smiles!',T:'Slow and steady wins!',U:'Under my umbrella!',V:'Vroom vroom!',W:'Wiggle waggle wow!',X:'X marks the fun!',Y:'Yo-yo! Yippee!',Z:'Zoom zoom zig-zag!','0':'Zero? I am a hero!','1':'Number one! Look at me!','2':'Two is twice the fun!','3':'Three cheers! Hip hip hooray!','4':'Four is the best, no more, no less!','5':'High five! Give me five!','6':'Six little spots, ha ha ha!','7':'Lucky seven! Wheee!','8':'Eight arms means eight hugs!','9':'Nine lives? I will take them all!','10':'Ten toes and I wiggle them all!','11':'Eleven! Goal goal goal!','12':'A dozen eggs, sunny side up!','13':'Thirteen lucky stars!','14':'Two whole weeks of fun!','15':'Ribbit! Fifteen frog jumps!','16':'Sixteen colors, let\'s draw!','17':'Seventeen shells by the sea!','18':'Hole in one! Eighteen holes!','19':'Boing! Nineteen bounces!','20':'Twenty wiggly fingers and toes!','21':'Twenty-one cookie snacks!','22':'Twinkle twinkle, twenty-two!','23':'Choo choo! Twenty-three trains!','24':'All day long, twenty-four hours!','25':'A quarter! Clink clink!','26':'I know my ABCs: twenty-six!','27':'Zzz... counting sheep to twenty-seven!','28':'Short and sweet, February\'s mine!','29':'Rawr! Dino dance party!','30':'Thirty! Almost the top!'};
 // rainbow-ish, every letter a distinct hue; lightness/saturation alternate so neighbours differ
-var COLS=(function(){var o=[];for(var i=0;i<26;i++){var h=Math.round(i*360/26*0.97+2);o.push('hsl('+h+','+(i%2?92:84)+'%,'+(i%2?60:52)+'%)')}for(var j=0;j<11;j++){var h2=Math.round(j*32.7+14);o.push('hsl('+h2+',100%,'+(j%2?66:47)+'%)')}return o})();
+var COLS=(function(){var o=[];for(var i=0;i<26;i++){var h=Math.round(i*360/26*0.97+2);o.push('hsl('+h+','+(i%2?92:84)+'%,'+(i%2?60:52)+'%)')}// 31 number colors picked so that every pair is far apart (checked by the roster test)
+  ['hsl(333,100%,64%)','hsl(120,100%,48%)','hsl(240,100%,48%)','hsl(180,100%,64%)','hsl(63,100%,48%)','hsl(0,100%,40%)','hsl(90,88%,80%)','hsl(252,100%,72%)','hsl(162,88%,40%)','hsl(24,100%,56%)','hsl(108,100%,64%)','hsl(288,100%,48%)','hsl(210,100%,48%)','hsl(306,100%,80%)','hsl(270,88%,40%)','hsl(330,100%,40%)','hsl(21,88%,72%)','hsl(207,88%,80%)','hsl(75,88%,40%)','hsl(144,100%,72%)','hsl(171,100%,48%)','hsl(207,88%,64%)','hsl(60,88%,64%)','hsl(294,100%,64%)','hsl(102,88%,40%)','hsl(240,100%,64%)','hsl(135,100%,56%)','hsl(225,88%,40%)','hsl(315,100%,48%)','hsl(21,88%,40%)','hsl(354,100%,56%)'].forEach(function(c){o.push(c)});return o})();
 var COLHEX=null; // filled lazily for tests (computed strings)
 function figSVG(i,opt){
   opt=opt||{};var g=GL[SYM(i)],col=COLS[i],iw=g.w||28,ow=iw+7,f=g.f,fx=f[0],fy=f[1],ar=g.ar,lg=g.lg,s='';
@@ -745,13 +760,27 @@ function figSVG(i,opt){
   s+='<g class="bodyg"><path d="'+g.d+'" fill="none" stroke="'+INK+'" stroke-width="'+ow+'" stroke-linecap="round" stroke-linejoin="round"/><path d="'+g.d+'" fill="none" stroke="'+col+'" stroke-width="'+iw+'" stroke-linecap="round" stroke-linejoin="round"/>';
   s+='<path d="'+g.d+'" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-6,-6)" style="clip-path:none" opacity="0"/>';
   // face
-  var ey=fy,my=fy+19;
+  var ey=fy,my=fy+19,fsc=g.fs||1;
+  if(fsc!==1)s+='<g class="face" transform="translate('+fx+' '+fy+') scale('+fsc+') translate('+(-fx)+' '+(-fy)+')">';
+  var acc=isNum(i)?((i-26)*11)%32:0,accA=acc&3,accB=(acc>>2)&3,accC=(acc>>4)&1;
+  // every number gets its own mix of face extras: cheeks/freckles/brows x lashes/glasses x hair bow (letters stay plain)
   [-1,1].forEach(function(d){var ex=fx+d*9.6;
     s+='<g class="eyes-open"><circle cx="'+ex+'" cy="'+ey+'" r="9" fill="#fff" stroke="'+INK+'" stroke-width="2.6"/><circle cx="'+(ex+1.4)+'" cy="'+(ey+1.6)+'" r="4.6" fill="'+INK+'"/><circle cx="'+(ex+3)+'" cy="'+(ey-0.2)+'" r="1.6" fill="#fff"/></g>';
     s+='<path class="eyes-happy" d="M'+(ex-6)+' '+(ey+3)+' Q'+ex+' '+(ey-8)+' '+(ex+6)+' '+(ey+3)+'" fill="none" stroke="'+INK+'" stroke-width="3.4" stroke-linecap="round"/>';});
   s+='<path class="m-smile" d="M'+(fx-7)+' '+my+' Q'+fx+' '+(my+9)+' '+(fx+7)+' '+my+'" fill="none" stroke="'+INK+'" stroke-width="3.4" stroke-linecap="round"/>';
   s+='<g class="m-open"><path d="M'+(fx-9)+' '+(my-2)+' Q'+fx+' '+(my+17)+' '+(fx+9)+' '+(my-2)+' Z" fill="#8a1f45" stroke="'+INK+'" stroke-width="2.6" stroke-linejoin="round"/><ellipse cx="'+fx+'" cy="'+(my+6.5)+'" rx="4.2" ry="2.6" fill="#ff8aa8"/></g>';
   s+='<ellipse class="m-oh" cx="'+fx+'" cy="'+(my+2)+'" rx="4.4" ry="5.8" fill="#8a1f45" stroke="'+INK+'" stroke-width="2.4"/>';
+  [-1,1].forEach(function(d){var ex=fx+d*9.6;
+    if(accA===1)s+='<ellipse class="acc" cx="'+(fx+d*19)+'" cy="'+(fy+11)+'" rx="5.2" ry="3.2" fill="#ff5c8a" opacity=".55"/>';
+    if(accA===2)s+='<g class="acc" fill="#8a4b2b"><circle cx="'+(fx+d*15)+'" cy="'+(fy+12)+'" r="1.5"/><circle cx="'+(fx+d*20)+'" cy="'+(fy+10)+'" r="1.5"/><circle cx="'+(fx+d*18)+'" cy="'+(fy+15)+'" r="1.5"/></g>';
+    if(accA===3)s+='<path class="acc" d="M'+(ex-d*7)+' '+(fy-12)+' Q'+ex+' '+(fy-17)+' '+(ex+d*8)+' '+(fy-11)+'" fill="none" stroke="'+INK+'" stroke-width="3.2" stroke-linecap="round"/>';
+    if(accB===1)s+='<path class="acc" d="M'+(ex+d*7)+' '+(fy-5)+' L'+(ex+d*13)+' '+(fy-9)+' M'+(ex+d*8.5)+' '+(fy-1)+' L'+(ex+d*15)+' '+(fy-2)+' M'+(ex+d*7)+' '+(fy+4)+' L'+(ex+d*13)+' '+(fy+7)+'" fill="none" stroke="'+INK+'" stroke-width="2.4" stroke-linecap="round"/>';
+    if(accB===3)s+='<path class="acc" d="M'+(fx+d*14)+' '+(fy+9)+' L'+(fx+d*27)+' '+(fy+5)+' M'+(fx+d*14)+' '+(fy+13)+' L'+(fx+d*27)+' '+(fy+13)+' M'+(fx+d*14)+' '+(fy+17)+' L'+(fx+d*26)+' '+(fy+21)+'" fill="none" stroke="'+INK+'" stroke-width="2" stroke-linecap="round" opacity=".85"/>';
+    if(accB===2)s+='<circle class="acc" cx="'+ex+'" cy="'+ey+'" r="11.8" fill="rgba(255,255,255,.18)" stroke="'+INK+'" stroke-width="2.4"/>';
+  });
+  if(accB===2)s+='<path class="acc" d="M'+(fx-2.4)+' '+fy+' L'+(fx+2.4)+' '+fy+'" stroke="'+INK+'" stroke-width="2.4" stroke-linecap="round"/>';
+  if(accC)s+='<g class="acc"><path d="M'+fx+' '+(fy-23)+' L'+(fx-10)+' '+(fy-30)+' L'+(fx-10)+' '+(fy-16)+' Z M'+fx+' '+(fy-23)+' L'+(fx+10)+' '+(fy-30)+' L'+(fx+10)+' '+(fy-16)+' Z" fill="#ff4f9a" stroke="'+INK+'" stroke-width="2.2" stroke-linejoin="round"/><circle cx="'+fx+'" cy="'+(fy-23)+'" r="3.2" fill="#ffd23d" stroke="'+INK+'" stroke-width="2"/></g>';
+  if(fsc!==1)s+='</g>';
   s+='</g></svg>';
   return s;
 }
@@ -879,7 +908,7 @@ var Snd={ctx:null,master:null,on:Store.get('sound',true),log:[],
 ['touchend','pointerdown','click','keydown'].forEach(function(ev){document.addEventListener(ev,function(){Snd.unlock()},{capture:true,passive:true})});
 
 /* ===== NAMES & ICONS ===== */
-var NAMES=['Andy','Bella','Coco','Dodo','Ellie','Fizz','Gigi','Hugo','Izzy','Jelly','Kiki','Lulu','Momo','Nico','Ollie','Pip','Quinn','Ruby','Sammy','Tito','Uma','Vinnie','Wally','Xavi','Yoyo','Zippy','Zuzu','Winnie','Tutu','Trixie','Foxy','Fifi','Sixie','Sevvy','Eddie','Ninny','Tenny'];
+var NAMES=['Andy','Bella','Coco','Dodo','Ellie','Fizz','Gigi','Hugo','Izzy','Jelly','Kiki','Lulu','Momo','Nico','Ollie','Pip','Quinn','Ruby','Sammy','Tito','Uma','Vinnie','Wally','Xavi','Yoyo','Zippy','Zuzu','Winnie','Tutu','Trixie','Foxy','Fifi','Sixie','Sevvy','Eddie','Ninny','Tenny','Evie','Twila','Thea','Frankie','Fiona','Sienna','Savvy','Ettie','Nina','Twiggy','Wanda','Tilly','Trudy','Ferris','Fawn','Sunny','Seb','Eli','Nova','Theo'];
 function N(i){return NAMES[i]}
 function fig(i,cls,extra,inner){return '<div class="fg'+(extra?' '+extra:'')+'" data-i="'+i+'">'+figSVG(i,{cls:cls||''})+(inner||'')+'</div>'}
 var INKC='#2b2250';
@@ -916,11 +945,11 @@ function lightSVG(state,flick){
 }
 /* ===== SCREENS ===== */
 var ST={you:null,alive:[],bench:[],round:0,out:false,watch:false,survived:0,skip:false,phase:'select',screen:'select',picked:null,diff:Store.get('diff','easy'),flying:0,showId:0,champ:null,lastFlung:[],lastRound:null,
-  field:Store.get('field','both'),len:Store.get('len','medium'),plan:[],force:null,fieldN:37};
+  field:Store.get('field','both'),len:Store.get('len','medium'),plan:[],force:null,fieldN:TOTAL};
 if(['letters','numbers','both'].indexOf(ST.field)<0)ST.field='both';
 if(['short','medium','long','surprise'].indexOf(ST.len)<0)ST.len='medium';
 function show(id){$$('.screen').forEach(function(s){s.classList.toggle('on',s.id==='s-'+id)});ST.screen=id}
-function fieldIds(f){f=f||ST.field;var a=[],i;if(f!=='numbers')for(i=0;i<26;i++)a.push(i);if(f!=='letters')for(i=26;i<37;i++)a.push(i);return a}
+function fieldIds(f){f=f||ST.field;var a=[],i;if(f!=='numbers')for(i=0;i<26;i++)a.push(i);if(f!=='letters')for(i=26;i<TOTAL;i++)a.push(i);return a}
 function inField(i){return fieldIds().indexOf(i)>=0}
 function CW(){return ST.field==='letters'?'Letters':ST.field==='numbers'?'Numbers':'Players'}
 function cwl(){return ST.field==='letters'?'letter':ST.field==='numbers'?'number':'player'}
@@ -939,8 +968,9 @@ function buildGrid(){
   var h='<div class="sec-h" id="sec-abc"><b>ABC</b><span>26 letters</span></div><div class="sgrid">',i;
   for(i=0;i<26;i++)h+=cardHTML(i);
   h+='<button class="card rand" data-i="-1" aria-label="Random character"><b>?</b></button></div>';
-  h+='<div class="sec-h" id="sec-123"><b>123</b><span>11 numbers: 0 to 10</span></div><div class="sgrid">';
-  for(i=26;i<37;i++)h+=cardHTML(i);
+  h+='<div class="sec-h" id="sec-123"><b>123</b><span>31 numbers: 0 to 30</span></div>';
+  h+='<div class="nchips" id="nchips"><button class="chip n on" data-ns="26" aria-label="Jump to numbers 0 to 10">0-10</button><button class="chip n" data-ns="37" aria-label="Jump to numbers 11 to 20">11-20</button><button class="chip n" data-ns="47" aria-label="Jump to numbers 21 to 30">21-30</button></div><div class="sgrid" id="ngrid">';
+  for(i=26;i<TOTAL;i++)h+=cardHTML(i);
   h+='</div>';
   $('#grid').innerHTML=h;
 }
@@ -955,9 +985,15 @@ $('#grid').addEventListener('click',function(e){var c=e.target.closest('.card');
   if(ci>=0&&!inField(ci)){ST.field='both';Store.set('field','both')} // tapping someone who is not in the show invites them in
   ST.picked=ci;Snd.play(ci<0?'boing':'select');renderSel()});
 function curTab(){var w=$('#gridwrap'),s=$('#sec-123');return (w.scrollTop>=s.offsetTop-70||(w.scrollTop>4&&w.scrollTop>=w.scrollHeight-w.clientHeight-4))?'123':'abc'}
-function syncTabs(){var t=curTab();$$('#chips .chip[data-sec]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-sec')===t)})}
+var nsLock=null;
+function curNs(){if(nsLock)return nsLock;var w=$('#gridwrap'),nb=$('#nchips'),best='26',h=nb?nb.offsetHeight+10:50;[26,37,47].forEach(function(k){var c=$('#grid .card[data-i="'+k+'"]');if(c&&w.scrollTop>=c.offsetTop-h-6)best=''+k});if(w.scrollTop>4&&w.scrollTop>=w.scrollHeight-w.clientHeight-4)best='47';return best}
+function syncTabs(){var t=curTab();$$('#chips .chip[data-sec]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-sec')===t)});var n=curNs();$$('#nchips .chip').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-ns')===n)})}
+['wheel','touchstart','pointerdown'].forEach(function(ev){$('#gridwrap').addEventListener(ev,function(e){if(!(e.target.closest&&e.target.closest('.chip[data-ns]'))){nsLock=null}},{passive:true})});
+$('#grid').addEventListener('click',function(e){var b=e.target.closest('.chip[data-ns]');if(!b)return;Snd.play('tap');nsLock=b.getAttribute('data-ns');var w=$('#gridwrap'),c=$('#grid .card[data-i="'+b.getAttribute('data-ns')+'"]'),nb=$('#nchips');
+  var y=Math.max(0,c.offsetTop-nb.offsetHeight-8);try{w.scrollTo({top:y,behavior:FAST?'auto':'smooth'})}catch(_){w.scrollTop=y}
+  $$('#nchips .chip').forEach(function(x){x.classList.toggle('on',x===b)})});
 $('#gridwrap').addEventListener('scroll',syncTabs,{passive:true});
-$('#chips').addEventListener('click',function(e){var b=e.target.closest('.chip[data-sec]');if(!b)return;Snd.play('tap');var w=$('#gridwrap'),s=$('#sec-'+b.getAttribute('data-sec'));
+$('#chips').addEventListener('click',function(e){var b=e.target.closest('.chip[data-sec]');if(!b)return;Snd.play('tap');nsLock=null;var w=$('#gridwrap'),s=$('#sec-'+b.getAttribute('data-sec'));
   var y=b.getAttribute('data-sec')==='abc'?0:Math.max(0,s.offsetTop-6);try{w.scrollTo({top:y,behavior:FAST?'auto':'smooth'})}catch(_){w.scrollTop=y}
   $$('#chips .chip[data-sec]').forEach(function(x){x.classList.toggle('on',x===b)})});
 $('#btn-play').addEventListener('click',function(){
@@ -979,7 +1015,9 @@ function closeSettings(){$('#settings').classList.remove('on');syncPaused()}
 function renderSetup(){
   $$('#opt-field button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===ST.field)});
   $$('#opt-len button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===ST.len)});
-  $('#setup-note').textContent='Starts with your next show: '+fieldIds().length+' contestants.';
+  var nn=fieldIds().length,ex=nn>40?1:0;
+  $('#setup-note').textContent='Starts with your next show: '+nn+' contestants'+(ex?' (a big field gets 1 extra round).':'.');
+  [['short',3],['medium',5],['long',7]].forEach(function(x){var b=$('#opt-len [data-v="'+x[0]+'"] small');if(b)b.textContent=Math.min(x[1]+ex,Math.max(3,Math.floor((nn-2)/2)))+' rounds + final'});
 }
 function openSetup(){Snd.play('tap');renderSetup();$('#setupm').classList.add('on');syncPaused();Snd.music.on&&Snd.music.stop()}
 function closeSetup(){$('#setupm').classList.remove('on');syncPaused();if(ST.screen==='select'){if(ST.picked!==null&&ST.picked>=0&&!inField(ST.picked))ST.picked=null;setLeft(fieldIds().length);renderSel()}updGameCount()}
@@ -1060,9 +1098,9 @@ function flingTo(i,from,to,o){
 }
 var _satProbe=document.createElement('div');_satProbe.style.cssText='position:fixed;top:0;left:0;height:var(--sat);width:1px;visibility:hidden';document.body.appendChild(_satProbe);
 Object.defineProperty(ST,'sat',{get:function(){return _satProbe.getBoundingClientRect().height||0}});
-// the bench has room for every possible flung contestant (36 of 37)
-function benchSlotsHTML(){var h='',n=Math.max(ST.fieldN||37,26);for(var i=0;i<n;i++)h+='<div class="bslot" data-b="'+i+'"></div>';return h}
-function benchCls(){return 'row'+((ST.fieldN||37)>26?' dense':'')}
+// the bench has room for every possible flung contestant (56 of 57)
+function benchSlotsHTML(){var h='',n=Math.max(ST.fieldN||TOTAL,26);for(var i=0;i<n;i++)h+='<div class="bslot" data-b="'+i+'"></div>';return h}
+function benchCls(){var n=ST.fieldN||TOTAL;return 'row'+(n>26?' dense':'')+(n>40?' xdense':'')}
 function fillBenchSlot(slot,i){slot.innerHTML=fig(i,'cheer wave');slot.classList.add('in');if(i===ST.you)slot.classList.add('me')}
 function renderBench(){
   var row=$('#par-bench-row');row.className=benchCls();row.innerHTML=benchSlotsHTML();
@@ -1072,7 +1110,7 @@ function confettiBurst(x,y,n){
   for(var k=0;k<(n||10);k++){var s=document.createElement('div');s.className='spark';var sz=6+Math.random()*7;s.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+pick(['#ff5a5a','#ffc83d','#2fbf4a','#2f8cff','#c46bff','#ff8fd6']);fx.appendChild(s);
     (function(s){var a=Math.random()*6.28,d=30+Math.random()*50;tween(700,function(k){s.style.transform='translate('+(x+Math.cos(a)*d*k)+'px,'+(y+Math.sin(a)*d*k+30*k*k)+'px)';s.style.opacity=1-k}).then(function(){s.remove()})})(s)}
 }
-function crowdCols(n){return n<=2?2:n<=5?n:n<=10?5:n<=16?8:n<=27?9:12}
+function crowdCols(n){return n<=2?2:n<=5?n:n<=10?5:n<=16?8:n<=27?9:n<=48?12:15}
 async function parade(before,flung,o){
   o=o||{};show('parade');ST.phase=o.watch?'watch':'parade';
   var crowd=$('#par-crowd'),cols=crowdCols(before.length);
@@ -1098,7 +1136,7 @@ async function parade(before,flung,o){
       var toR=rectOf(bs);
       ps.push(flingTo(l,from,toR,{}).then(function(){fillBenchSlot(bs,l);Snd.play('land');setLeft(lf);var r=rectOf(bs);confettiBurst(r.x+r.w/2,r.y+r.h/2,8)}));
     })(order[k]);
-    if(!ST.skip)await sleep(order.length>16?Math.round((o.gap||430)*.55):(o.gap||430));
+    if(!ST.skip)await sleep(order.length>30?Math.round((o.gap||430)*.34):order.length>16?Math.round((o.gap||430)*.55):(o.gap||430));
   }
   await Promise.all(ps);
   if(!ST.skip){Snd.play('cheer');await sleep(500)}
@@ -1177,7 +1215,7 @@ function stars(parent,x,y,txt){var s=document.createElement('div');s.className='
 function tileCol(v){return TILECOLS[v%7]}
 function symKind(c){return(c.round&&c.round.kind)||'abc'}
 // symbols for a "kind" of round: 'abc' = A-Z, '123' = 0-10
-function symsOf(kind){var a=[],i;if(kind==='123'){for(i=0;i<=10;i++)a.push(String(i))}else{for(i=0;i<26;i++)a.push(LET[i])}return a}
+function symsOf(kind,mx){var a=[],i;if(kind==='123'){for(i=0;i<=(mx||30);i++)a.push(String(i))}else{for(i=0;i<26;i++)a.push(LET[i])}return a}
 function vsBar(me,opp,goal){return '<div class="vs"><div class="side">'+fig(me,'happy')+'<div class="dots" id="vs-me">'+Array(goal+1).join('<i></i>')+'</div></div><b class="vsb">VS</b><div class="side r">'+fig(opp,'happy')+'<div class="dots" id="vs-op">'+Array(goal+1).join('<i></i>')+'</div></div></div>'}
 function setDots(id,n){$$('#'+id+' i').forEach(function(d,k){d.classList.toggle('on',k<n)})}
 
@@ -1294,18 +1332,18 @@ function promptHTML(p){return (p.label?'<div class="txt">'+p.label+'</div>':'')+
 var DIFF={
   easy:{rlGrace:.75,rlWarn:1.0,rlGreen:[2.6,4.0],rlRed:[1.5,2.4],rlTime:36,rlRun:8.5,tugOpp:.15,tugHelp:.11,tugTap:.05,tugTime:16,fOpp:.07,fTap:.06,mcSlow:2.6,mcFast:[.5,1.2],hopHint:3.5,hopLife:true,hopSteps:6,
     brSteps:6,brLives:1,brReveal:2,brHint:8,fdK:3,fdGrace:.9,fdMusic:[2.0,3.0],fdFreeze:[1.8,2.4],fdMin:3,
-    ctQ:3,ctTime:9,ctMax:5,ctLives:1,ctAi:[3.0,4.8],ctAiOk:.7,
+    ctQ:3,ctTime:9,ctMax:6,ctLives:1,ctAi:[3.0,4.8],ctAiOk:.7,
     spWords:2,spDecoy:1,spMist:3,spTime:30,spHint:4,
-    rkTime:28,rkHint:3,pmPairs:3,pmTime:32,pmPeek:2.6,
-    blGoal:4,blTime:26,blSpeed:.13,blAi:[2.8,4.0],blPenalty:0,
+    rkFrom:10,rkTime:28,rkHint:3,pmPairs:3,pmTime:32,pmPeek:2.6,
+    blMax:20,blGoal:4,blTime:26,blSpeed:.13,blAi:[2.8,4.0],blPenalty:0,
     rpGoal:8,rpAir:.66,rpClear:.16,rpLives:1,rpInt:[2.0,1.9,1.8,1.7,1.6,1.5,1.05,1.05],rpFinInt:[2.0,1.9,1.8,1.7,1.6,1.5,1.4,1.3,1.2,1.1,1.0,1.0],rpFinFail:[6,9],
     hdSpots:6,hdCheck:2,hdGlance:2,hdCount:.8,hdMoves:1,hdIdle:3.5,skSpots:6,skHiders:3,skTime:26,skPenalty:0,skHint:6,skDecoy:0},
   medium:{rlGrace:.4,rlWarn:.8,rlGreen:[1.8,3.2],rlRed:[1.5,3.0],rlTime:30,rlRun:9.5,tugOpp:.24,tugHelp:.11,tugTap:.05,tugTime:15,fOpp:.13,fTap:.06,mcSlow:1.7,mcFast:[.45,1.0],hopHint:8,hopLife:false,hopSteps:7,
     brSteps:7,brLives:1,brReveal:2,brHint:99,fdK:4,fdGrace:.4,fdMusic:[1.6,2.6],fdFreeze:[1.4,2.0],fdMin:5,
-    ctQ:4,ctTime:6,ctMax:8,ctLives:0,ctAi:[2.0,3.4],ctAiOk:.85,
+    ctQ:4,ctTime:7,ctMax:12,ctLives:0,ctAi:[2.0,3.4],ctAiOk:.85,
     spWords:3,spDecoy:3,spMist:2,spTime:32,spHint:99,
-    rkTime:18,rkHint:99,pmPairs:4,pmTime:30,pmPeek:1.5,
-    blGoal:5,blTime:20,blSpeed:.2,blAi:[1.8,2.8],blPenalty:1.5,
+    rkFrom:15,rkTime:22,rkHint:99,pmPairs:4,pmTime:30,pmPeek:1.5,
+    blMax:30,blGoal:5,blTime:20,blSpeed:.2,blAi:[1.8,2.8],blPenalty:1.5,
     rpGoal:12,rpAir:.54,rpClear:.34,rpLives:0,rpInt:[1.7,1.6,1.5,1.45,1.4,1.35,1.3,1.25,1.2,.8,.8,.8],rpFinInt:[1.7,1.6,1.5,1.45,1.4,1.35,1.3,1.25,1.2,1.1,1.0,.9,.85,.8],rpFinFail:[9,13],
     hdSpots:8,hdCheck:5,hdGlance:4,hdCount:.55,hdMoves:1,hdIdle:4,skSpots:8,skHiders:4,skTime:17,skPenalty:1.5,skHint:99,skDecoy:1}
 };
@@ -1327,10 +1365,10 @@ GAMES.hop={short:'Hopscotch',nameOf:function(k){return k==='123'?'Number Hopscot
     help:n?['Look at the number puzzle. One number is missing, like 6 + ? = 9. What is it?','Tap the tile with the right number to hop on it.','A wrong tile drops you into the soft foam pit and you get flung. WEEEEE!','Easy mode: you get one wobble, so you can try another tile! The puzzles get trickier as you hop up.']:['Look at the letter puzzle. Which letter fits? Think about letters before, after, or skipping.','Tap the tile with the right letter to hop on it.','A wrong tile drops you into the soft foam pit and you get flung. WEEEEE!','Easy mode: you get one wobble, so you can try another tile! The puzzles get trickier as you hop up.']}}};
 GAMES.tug={short:'Tug of War',title:function(){return 'TUG OF WAR!'},icon:function(){return IC.rope()},desc:'Tap tap tap to pull the rope',isNew:false,fin:true,maxCut:.55,play:function(c){return playTug(c,!!c.final)},
   card:function(r,me){
-    if(r.final)return{hero:HR([HH(fig(me,'happy'),'run'),HH(IC.rope(),'rope'),HH(fig(ST.finalOpp===undefined||ST.finalOpp===null?(me+13)%37:ST.finalOpp,'happy'),'run')],'big')+HR([HH(IC.tap(),'tapic'),HH(IC.trophy(),'trophyic')]),
+    if(r.final)return{hero:HR([HH(fig(me,'happy'),'run'),HH(IC.rope(),'rope'),HH(fig(ST.finalOpp===undefined||ST.finalOpp===null?(me+13)%TOTAL:ST.finalOpp,'happy'),'run')],'big')+HR([HH(IC.tap(),'tapic'),HH(IC.trophy(),'trophyic')]),
       rows:[[IC.tap(),'Tap tap tap!'],[IC.rope(),'Pull the rope!'],[IC.trophy(),'Win the trophy!']],
       help:['It is just you and one other contestant!','Tap PULL as fast as you can to drag the rope your way.','Pull all the way to become the CHAMPION!','If you lose, you get a soft landing on the bench. WEEEEE!']};
-    return{hero:HR([HH(fig(me,'happy'),'run'),HH(IC.rope(),'rope'),HH(fig((me+7)%37,'happy'),'run')],'big')+HR([HH(IC.tap(),'tapic'),'<div class="hh tapic" style="animation-delay:.2s">'+IC.tap()+'</div>','<div class="hh tapic" style="animation-delay:.4s">'+IC.tap()+'</div>']),
+    return{hero:HR([HH(fig(me,'happy'),'run'),HH(IC.rope(),'rope'),HH(fig((me+7)%TOTAL,'happy'),'run')],'big')+HR([HH(IC.tap(),'tapic'),'<div class="hh tapic" style="animation-delay:.2s">'+IC.tap()+'</div>','<div class="hh tapic" style="animation-delay:.4s">'+IC.tap()+'</div>']),
       rows:[[IC.tap(),'Tap tap tap!'],[IC.rope(),'Pull your team!'],[IC.weee(),'Lose? WEEEEE!']],
       help:['Tap the big PULL button as fast as you can!','Every tap pulls the rope toward your team.','Pull the rope all the way to win!','The team that loses gets flung. WEEEEE!']}}};
 GAMES.chairs={short:'Musical Chairs',title:function(){return 'MUSICAL<br>CHAIRS!'},icon:function(){return IC.chair('#ff5a8a')},desc:'Music stops: grab a chair',isNew:false,fin:false,maxCut:1,play:function(c){return playChairs(c)},
@@ -1341,12 +1379,14 @@ function cardInfo(r){return GAMES[r.id].card(r,ST.you)}
 /* ---------- show planner ---------- */
 // keep-counts after each of R regular rounds: geometric from the field size down to 2 (the final then goes 2 -> 1)
 function planTargets(N,R){var t=[],prev=N;for(var k=1;k<=R;k++){var v=Math.round(N*Math.pow(2/N,k/R));v=Math.min(v,prev-1);v=Math.max(v,2+(R-k));t.push(v);prev=v}t[R-1]=2;return t}
-function kindFor(id){if(id==='hide')return ST.hsMode||'hide';if(id!=='hop'&&id!=='balloon'&&id!=='bridge')return null;return ST.field==='letters'?'abc':ST.field==='numbers'?'123':(Math.random()<.5?'abc':'123')}
+function kindFor(id){if(id==='hide')return ST.hsMode||'hide';if(id!=='hop'&&id!=='balloon'&&id!=='bridge'&&id!=='spell')return null;return ST.field==='letters'?'abc':ST.field==='numbers'?'123':(Math.random()<.5?'abc':'123')}
 function mkRound(id,k,keep,fin){var g=GAMES[id],kind=kindFor(id),nm=g.nameOf?g.nameOf(kind):g.short;
   return{id:id,name:fin?'FINAL':'Round '+(k+1),keep:keep,final:!!fin,kind:kind,short:fin?'Final: '+nm:nm,title:fin?'FINAL<br>SHOWDOWN!':g.title(kind)}}
 function buildPlan(){
   var N=fieldIds().length,F=ST.force,len=ST.len,en=enabledGames();
   var Rreq=F?F.ids.length:(len==='short'?3:len==='long'?7:len==='surprise'?3+rnd(5):5);
+  // a very big field (more than 40: Letters + Numbers) gets one extra round so each round still cuts about half, not more
+  if(!F&&N>40)Rreq+=1;
   var R=F?Math.min(Rreq,N-2):Math.min(Rreq,Math.max(3,Math.floor((N-2)/2)),N-2);
   var tg=planTargets(N,R),seq=[],fin;
   if(F){seq=F.ids.slice(0,R);fin=F.final||'tug'}
@@ -1560,6 +1600,7 @@ async function playHop(c){
 }
 
 /* ===== ROUND C + FINAL: TUG OF WAR ===== */
+/* NOTE: never run a CSS transform animation (squashin, wob, pop...) on an element that is positioned with an inline transform: the animation replaces it and the element warps to 0,0. Animate the inner figure (el.firstChild) instead. */
 async function playTug(c,isFinal){
   var host=$('#arena-host'),d=D(),alive=c.alive.slice(),meIn=c.inGame;
   var teamA,teamB; // A = player's side (left, green). In spectate sims A is just a side.
@@ -1598,7 +1639,7 @@ async function playTug(c,isFinal){
   }
   place();
   function say(t,col){ban.className='banner outline pop';ban.style.color=col||'#fff';ban.textContent=t;ban.style.animation='none';void ban.offsetWidth;ban.style.animation='';var tt=t;setTimeout(function(){if(ban.textContent===tt)ban.textContent=''},600+900*SPEED)}
-  function tapIt(){if(over||!started||!meIn)return;pos=Math.min(1,pos+d.tugTap*(isFinal?1.0:1));taps++;lastTap=T;Snd.play('pull',taps%12);btn.classList.add('held');setTimeout(function(){btn.classList.remove('held')},60);var s=all.filter(function(m){return m.me})[0];if(s){s.el.classList.remove('squashin');void s.el.offsetWidth;s.el.classList.add('squashin')}}
+  function tapIt(){if(over||!started||!meIn)return;pos=Math.min(1,pos+d.tugTap*(isFinal?1.0:1));taps++;lastTap=T;Snd.play('pull',taps%12);btn.classList.add('held');setTimeout(function(){btn.classList.remove('held')},60);var s=all.filter(function(m){return m.me})[0];if(s){var sq=s.el.firstChild;sq.classList.remove('squashin');void sq.offsetWidth;sq.classList.add('squashin')}}
   CURF=function(){return{id:isFinal?'final':'tug',pos:pos,started:started,over:over,winner:winner,taps:taps,team:teamA.slice()}};
   if(!meIn){btn.style.display='none'}
   btn.onpointerdown=function(e){e.preventDefault();tapIt()};
@@ -1680,7 +1721,7 @@ async function playChairs(c){
   (function an(){ if(animRun!==RUN||over)return;var now=performance.now();an.last=an.last||now;var dt=Math.min(.05,(now-an.last)/1000)*GS;an.last=now;if(!paused){T+=dt;
       cur.forEach(function(l){var o=lt[l];if(!o)return;
         if(o.mode==='walk'){o.a+=dt*(phase==='music'?1.5:0);o.x=cx+Math.cos(o.a)*Rw*1.18;o.y=cy+Math.sin(o.a)*Rw*1.18+lw*.4}
-        else if(o.mode==='go'){var k=clamp((T-o.t0)/o.dur,0,1);var e=k*k*(3-2*k);o.x=lerp(o.sx,o.tx,e);o.y=lerp(o.sy,o.ty,e)-Math.sin(k*Math.PI)*lw*.5;if(k>=1){o.mode='sat';o.el.firstChild.firstChild.setAttribute('class','csvg fig-svg happy');o.el.classList.add('squashin')}}
+        else if(o.mode==='go'){var k=clamp((T-o.t0)/o.dur,0,1);var e=k*k*(3-2*k);o.x=lerp(o.sx,o.tx,e);o.y=lerp(o.sy,o.ty,e)-Math.sin(k*Math.PI)*lw*.5;if(k>=1){o.mode='sat';o.el.firstChild.firstChild.setAttribute('class','csvg fig-svg happy');o.el.firstChild.classList.add('squashin')}}
         placeL(o)});
       if(phase==='music'){nb+=dt;if(nb>.35){nb=0;note()}}
       chairs.forEach(function(ch){ch.el.style.zIndex=Math.round(ch.y)-2});
@@ -1693,7 +1734,7 @@ async function playChairs(c){
   await sleep(700);
   while(cur.length>keepN&&!result){
     passN++;var m=Math.min(mPass,cur.length-keepN),k=cur.length-m;buildChairs(k);tapped=null;
-    cur.forEach(function(l){var o=lt[l];o.mode='walk';o.el.classList.remove('squashin');o.el.firstChild.firstChild.setAttribute('class','csvg fig-svg happy run')});
+    cur.forEach(function(l){var o=lt[l];o.mode='walk';o.el.firstChild.classList.remove('squashin');o.el.firstChild.firstChild.setAttribute('class','csvg fig-svg happy run')});
     var a0=lt[cur[0]].a;cur.forEach(function(l,i){lt[l].a=a0+i*6.28/cur.length});
     phase='music';setBan('Music! Walk walk walk!','music',IC.note('#fff'));Snd.music.start();
     await sleep((passN===1?2600:1500)+rnd(1700)+(ST.diff==='easy'?500:0));
@@ -1717,7 +1758,7 @@ async function playChairs(c){
     await sleep(500);
     var outs=meSlow?[ST.you].concat(doomedL.slice(1)):doomedL;
     Snd.play('oops');
-    outs.forEach(function(l){var o=lt[l];if(o){o.el.firstChild.firstChild.setAttribute('class','csvg fig-svg oh');o.el.classList.add('squashin')}});
+    outs.forEach(function(l){var o=lt[l];if(o){o.el.firstChild.firstChild.setAttribute('class','csvg fig-svg oh');o.el.firstChild.classList.add('squashin')}});
     if(meSlow)setBan('Oops! No chair!','stop');else{setBan('You got a chair!','music');Snd.play('win')}
     flungAll=flungAll.concat(outs);cur=cur.filter(function(l){return outs.indexOf(l)<0});
     if(meSlow)result='me-out';
@@ -1863,7 +1904,7 @@ async function playFreeze(c){
 
 /* ===== NEW ROUND: COUNT IT (tap how many stars / rockets / planets - also a 1v1 Final Showdown: first to 2 points) ===== */
 GAMES.count={short:'Count It',title:function(){return 'COUNT IT!'},icon:function(){return IC.three()},desc:'Tap how many you can count',isNew:false,fin:true,maxCut:1,play:function(c){return playCount(c)},
-  card:function(r,me){var f=r.final;return{hero:HR([HH(IC.star(),'tile'),HH(IC.star(),'tile'),HH(IC.star(),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('3','#2fb8ff'),'tile')],'big')+(f?HR([HH(fig(me,'happy'),'run'),HH(IC.tap(),'tapic'),HH(fig(ST.finalOpp==null?(me+13)%37:ST.finalOpp,'happy'),'run')]):HR([HH(IC.rocket(),'tile'),HH(IC.rocket(),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('2','#ff9f1a'),'tile')])),
+  card:function(r,me){var f=r.final;return{hero:HR([HH(IC.star(),'tile'),HH(IC.star(),'tile'),HH(IC.star(),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('3','#2fb8ff'),'tile')],'big')+(f?HR([HH(fig(me,'happy'),'run'),HH(IC.tap(),'tapic'),HH(fig(ST.finalOpp==null?(me+13)%TOTAL:ST.finalOpp,'happy'),'run')]):HR([HH(IC.rocket(),'tile'),HH(IC.rocket(),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('2','#ff9f1a'),'tile')])),
     rows:[[IC.star(),'Count the stars!'],[IC.tile('3','#2fb8ff'),'Tap the right number!'],[IC.weee(),f?'First to 2 wins!':'Too slow? WEEEEE!']],
     help:f?['Some space things appear. Count them!','Tap the right number before your rival does.','First one to win 2 points becomes the CHAMPION!','If your rival wins, you get a soft landing on the bench. WEEEEE!']:['Count how many stars, rockets or planets you see.','Tap the number that matches.','A wrong answer or running out of time costs a wobble. Easy mode gives you one extra try.','Too many wobbles and you get flung. WEEEEE!']}}};
 var CT_THEMES=[['stars',function(){return IC.star()}],['rockets',function(){return IC.rocket()}],['planets',function(){return IC.planet()}],['moons',function(){return IC.moon()}]];
@@ -1881,15 +1922,16 @@ async function playCount(c){
     if(!used0&&qi>0&&Math.random()<.18){n=0;used0=true}
     prevN=n;ans=n;var th=pick(CT_THEMES);
     qEl.innerHTML='<span>How many '+th[0]+'?</span>';
-    scene.innerHTML='';var W=scene.clientWidth,H=scene.clientHeight,cols=4,rows=2,cw=W/cols,ch=H/rows,sz=Math.min(cw,ch)*.66;
-    for(var q=0;q<26;q++){var tw=document.createElement('i');tw.className='tw';tw.style.cssText='left:'+rr(0,W)+'px;top:'+rr(0,H)+'px';scene.appendChild(tw)}
-    var slots=shuffle([0,1,2,3,4,5,6,7]).slice(0,n);
-    slots.forEach(function(sl,j){var it=document.createElement('div');it.className='it';it.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+((sl%cols)*cw+cw/2-sz/2+rr(-6,6))+'px;top:'+(Math.floor(sl/cols)*ch+ch/2-sz/2+rr(-6,6))+'px;animation-delay:'+(j*.11)+'s';it.innerHTML=th[1]();scene.appendChild(it)});
-    if(n===0){scene.insertAdjacentHTML('beforeend','<div class="msgbar" style="position:absolute;left:12%;right:12%;top:36%;opacity:.9">Empty sky!</div>')}
-    var pool=[];for(q=Math.max(0,ans-2);q<=Math.min(maxN+1,ans+2);q++)if(q!==ans)pool.push(q);
+    // answer buttons first, so the scene is measured at its final size
+    var pool=[],q;for(q=Math.max(0,ans-2);q<=Math.min(maxN+1,ans+2);q++)if(q!==ans)pool.push(q);
     vals=shuffle([ans].concat(shuffle(pool).slice(0,2)));
     opts.innerHTML=vals.map(function(v,j){return '<button class="opt" data-v="'+v+'" style="background:'+tileCol(v+j)+'" aria-label="'+v+'">'+v+'</button>'}).join('');
     btns=$$('.opt',opts);btns.forEach(function(b,j){b.onclick=function(){if(b.classList.contains('off')||b.classList.contains('flop'))return;if(fin){if(res===null){if(vals[j]===ans)res='me';else{b.classList.add('flop');Snd.play('oops')}}}else if(picked===null)picked=j}});
+    scene.innerHTML='';var W=scene.clientWidth,H=scene.clientHeight,cols=maxN>8?5:4,rows=maxN>8?3:2,cw=W/cols,ch=H/rows,sz=Math.min(cw,ch)*.66;
+    for(var q=0;q<26;q++){var tw=document.createElement('i');tw.className='tw';tw.style.cssText='left:'+rr(0,W)+'px;top:'+rr(0,H)+'px';scene.appendChild(tw)}
+    var allS=[];for(q=0;q<cols*rows;q++)allS.push(q);var slots=shuffle(allS).slice(0,n);
+    slots.forEach(function(sl,j){var it=document.createElement('div');it.className='it';it.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+((sl%cols)*cw+cw/2-sz/2+rr(-6,6))+'px;top:'+(Math.floor(sl/cols)*ch+ch/2-sz/2+rr(-6,6))+'px;animation-delay:'+(j*.11)+'s';it.innerHTML=th[1]();scene.appendChild(it)});
+    if(n===0){scene.insertAdjacentHTML('beforeend','<div class="msgbar" style="position:absolute;left:12%;right:12%;top:36%;opacity:.9">Empty sky!</div>')}
   }
   function hint(){btns.forEach(function(b,j){if(vals[j]===ans)b.classList.add('hint')})}
   var pS=0,oS=0,okAll=true;
@@ -1929,11 +1971,14 @@ async function playCount(c){
 }
 
 /* ===== NEW ROUND: SPELL IT (tap the letters of a 3-letter word, in order, to match the picture) ===== */
-GAMES.spell={short:'Spell It',title:function(){return 'SPELL IT!'},icon:function(){return PICS.CAT()},desc:'Build the word from the picture',isNew:false,fin:false,maxCut:1,play:function(c){return playSpell(c)},
-  card:function(r,me){return{hero:HR([HH(PICS.CAT(),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('C','#ff5a5a'),'tile'),HH(IC.tile('A','#ff9f1a'),'tile'),HH(IC.tile('T','#3fcf5a'),'tile')],'big')+HR([HH(PICS.DOG(),'tile'),HH(PICS.SUN(),'tile'),HH(PICS.BUS(),'tile')]),
-    rows:[[PICS.CAT(),'Look at the picture!'],[IC.tile('C','#ff7ab8'),'Tap letters in order!'],[IC.weee(),'Too many wobbles? WEEEEE!']],
-    help:['Look at the picture. What is it? Say the word out loud!','Tap the letters in the right order: first sound first.','A wrong letter wobbles. Easy mode lets you wobble a few times.','Spell every word before the timer ends to stay in the show.']}}};
+GAMES.spell={short:'Spell It',nameOf:function(k){return k==='123'?'Spell the Number':'Spell It'},title:function(){return 'SPELL IT!'},icon:function(){return PICS.CAT()},desc:'Build the word from the picture',isNew:false,fin:false,maxCut:1,play:function(c){return playSpell(c)},
+  card:function(r,me){var nn=r&&r.kind==='123';return{hero:(nn?HR([HH(IC.tile('3','#2fb8ff'),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('T','#ff5a5a'),'tile'),HH(IC.tile('H','#ff9f1a'),'tile'),HH(IC.tile('R','#3fcf5a'),'tile'),HH(IC.tile('E','#a56bff'),'tile'),HH(IC.tile('E','#ff7ab8'),'tile')],'big')+HR([HH(IC.tile('7','#ff9f1a'),'tile'),HH(IC.tile('12','#2fbf4a'),'tile'),HH(IC.tile('30','#e8453c'),'tile')]):HR([HH(PICS.CAT(),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('C','#ff5a5a'),'tile'),HH(IC.tile('A','#ff9f1a'),'tile'),HH(IC.tile('T','#3fcf5a'),'tile')],'big')+HR([HH(PICS.DOG(),'tile'),HH(PICS.SUN(),'tile'),HH(PICS.BUS(),'tile')])),
+    rows:[[nn?IC.tile('7','#2fb8ff'):PICS.CAT(),nn?'Look at the number!':'Look at the picture!'],[IC.tile('C','#ff7ab8'),'Tap letters in order!'],[IC.weee(),'Too many wobbles? WEEEEE!']],
+    help:[nn?'Look at the number. How do you say it? Say its name out loud!':'Look at the picture. What is it? Say the word out loud!','Tap the letters in the right order: first sound first.','A wrong letter wobbles. Easy mode lets you wobble a few times.','Spell every word before the timer ends to stay in the show.']}}};
 var SP_WORDS=['CAT','DOG','SUN','HAT','BUS','PIG','CUP'];
+// number names for the number version: easy = short ones, medium = longer ones, all up to thirty
+var SP_NUMS={ONE:1,TWO:2,SIX:6,TEN:10,FOUR:4,FIVE:5,NINE:9,THREE:3,SEVEN:7,EIGHT:8,ELEVEN:11,TWELVE:12,TWENTY:20,THIRTY:30};
+var SP_NUMW={easy:['ONE','TWO','SIX','TEN','FOUR','FIVE','NINE'],medium:['THREE','SEVEN','EIGHT','ELEVEN','TWELVE','TWENTY','THIRTY']};
 async function playSpell(c){
   var d=D(),others=aiOf(c.alive),host=$('#arena-host');
   host.innerHTML='<div class="timerbar"><i id="sp-tbar"></i></div><div class="sp"><div class="hop-crowd" id="sp-crowd"></div><div class="sp-top"><div class="sp-pic" id="sp-pic"></div><div class="sp-slots" id="sp-slots"></div></div><div class="sp-tray" id="sp-tray"></div></div><div class="banner outline" id="sp-ban" style="top:34%"></div>';
@@ -1941,14 +1986,16 @@ async function playSpell(c){
   var crowd=$('#sp-crowd'),pic=$('#sp-pic'),slotsEl=$('#sp-slots'),tray=$('#sp-tray'),ban=$('#sp-ban'),tbar=$('#sp-tbar');
   fitStrip(crowd,others);
   var need=c.alive.length-c.keep,doom=shuffle(others).slice(0,need),sch=outSched(crowd,doom);
-  var words=shuffle(SP_WORDS).slice(0,d.spWords),wi=0,word='',idx=0,mistakes=0,failed=false,tot=0,lastAct=0,tiles=[],finished=false;
-  CURF=function(){return{id:'spell',word:word,next:word[idx]||null,idx:idx,wordIdx:wi,words:words.length,mistakes:mistakes,maxMistakes:d.spMist,over:finished||failed}};
+  var numMode=symKind(c)==='123',words=shuffle(numMode?(SP_NUMW[ST.diff]||SP_NUMW.easy):SP_WORDS).slice(0,d.spWords),wi=0,word='',idx=0,mistakes=0,failed=false,tot=0,lastAct=0,tiles=[],finished=false;
+  CURF=function(){return{id:'spell',numMode:numMode,word:word,next:word[idx]||null,idx:idx,wordIdx:wi,words:words.length,mistakes:mistakes,maxMistakes:d.spMist,over:finished||failed}};
   function setup(){
-    word=words[wi];idx=0;pic.className='sp-pic';pic.innerHTML=PICS[word]();
-    slotsEl.innerHTML=word.split('').map(function(ch,k){return '<div class="sp-s'+(k===0?' next':'')+'" data-k="'+k+'"></div>'}).join('');
+    word=words[wi];idx=0;pic.className='sp-pic';pic.innerHTML=numMode?'<div class="sp-numtile" style="background:'+tileCol(SP_NUMS[word])+'">'+SP_NUMS[word]+'</div>':PICS[word]();
+    var sw=Math.max(34,Math.min(64,Math.floor(((slotsEl.parentNode.clientWidth||340)-24-(word.length-1)*8)/word.length)));
+    slotsEl.style.gap=(word.length>5?8:10)+'px';
+    slotsEl.innerHTML=word.split('').map(function(ch,k){return '<div class="sp-s'+(k===0?' next':'')+'" data-k="'+k+'" style="width:'+sw+'px;height:'+Math.round(sw*1.12)+'px;font-size:'+Math.round(sw*.75)+'px"></div>'}).join('');
     var letters=word.split(''),decoys=shuffle(LET.split('').filter(function(x){return word.indexOf(x)<0})).slice(0,d.spDecoy);
     tray.innerHTML=shuffle(letters.concat(decoys)).map(function(ch,j){return '<button class="sp-t" data-l="'+ch+'" style="background:'+tileCol(ch.charCodeAt(0)+j)+'" aria-label="Letter '+ch+'">'+ch+'</button>'}).join('');
-    tiles=$$('.sp-t',tray);
+    tray.classList.toggle('many',letters.length+decoys.length>6);tiles=$$('.sp-t',tray);
     tiles.forEach(function(t){t.onclick=function(){
       if(failed||t.classList.contains('used'))return;lastAct=tot;tiles.forEach(function(x){x.classList.remove('hint')});
       var ch=t.getAttribute('data-l');
@@ -1976,25 +2023,25 @@ async function playSpell(c){
   return out;
 }
 
-/* ===== NEW ROUND: ROCKET COUNTDOWN (space! tap the numbers 10, 9, 8 ... 0 in order, then BLAST OFF) ===== */
+/* ===== NEW ROUND: ROCKET COUNTDOWN (space! tap the numbers 10 (or 15) down to 0 in order, then BLAST OFF) ===== */
 GAMES.rocket={short:'Rocket Countdown',title:function(){return 'ROCKET<br>COUNTDOWN!'},icon:function(){return IC.rocket()},desc:'Tap 10 down to 0, then blast off',isNew:false,fin:false,maxCut:1,play:function(c){return playRocket(c)},
-  card:function(r,me){return{hero:HR([HH(IC.tile('10','#ff5a5a'),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('9','#ff9f1a'),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('0','#3fcf5a'),'tile')],'big')+HR([HH(fig(me,'happy bounce'),'run'),HH(IC.rocket(),'tile'),HH(IC.sun(),'foam')]),
-    rows:[[IC.countdown(),'Tap 10, 9, 8...'],[IC.tile('0','#ff7ab8'),'All the way to 0!'],[IC.rocket(),'BLAST OFF!']],
-    help:['Numbers are scattered on the launch pad. Find 10 first!','Tap the numbers going down: 10, 9, 8... all the way to 0.','Then the rocket blasts off! Be quick before the timer runs out.','Too slow and you get flung like a rocket. WEEEEE! A glowing number helps you on Easy.']}}};
+  card:function(r,me){return{hero:HR([HH(IC.tile(''+D().rkFrom,'#ff5a5a'),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile(''+(D().rkFrom-1),'#ff9f1a'),'tile'),HH(IC.arrow(),'arr'),HH(IC.tile('0','#3fcf5a'),'tile')],'big')+HR([HH(fig(me,'happy bounce'),'run'),HH(IC.rocket(),'tile'),HH(IC.sun(),'foam')]),
+    rows:[[IC.countdown(),'Tap '+D().rkFrom+', '+(D().rkFrom-1)+', '+(D().rkFrom-2)+'...'],[IC.tile('0','#ff7ab8'),'All the way to 0!'],[IC.rocket(),'BLAST OFF!']],
+    help:['Numbers are scattered on the launch pad. Find '+D().rkFrom+' first!','Tap the numbers going down: '+D().rkFrom+', '+(D().rkFrom-1)+', '+(D().rkFrom-2)+'... all the way to 0.','Then the rocket blasts off! Be quick before the timer runs out.','Too slow and you get flung like a rocket. WEEEEE! A glowing number helps you on Easy.']}}};
 async function playRocket(c){
   var d=D(),others=aiOf(c.alive),host=$('#arena-host');
-  host.innerHTML='<div class="timerbar"><i id="rk-tbar"></i></div><div class="rk"><div class="hop-crowd" id="rk-crowd"></div><div class="rk-top"><div class="rk-rocket" id="rk-rocket">'+rocketSVG()+'</div><div class="rk-big"><small>Tap number</small><b id="rk-next">10</b></div></div><div class="rk-pad" id="rk-pad"></div></div><div class="banner outline" id="rk-ban" style="top:34%"></div>';
+  host.innerHTML='<div class="timerbar"><i id="rk-tbar"></i></div><div class="rk"><div class="hop-crowd" id="rk-crowd"></div><div class="rk-top"><div class="rk-rocket" id="rk-rocket">'+rocketSVG()+'</div><div class="rk-big"><small>Tap number</small><b id="rk-next">'+d.rkFrom+'</b></div></div><div class="rk-pad" id="rk-pad"></div></div><div class="banner outline" id="rk-ban" style="top:34%"></div>';
   await sleep(40);
   var crowd=$('#rk-crowd'),pad=$('#rk-pad'),ban=$('#rk-ban'),tbar=$('#rk-tbar'),nextEl=$('#rk-next'),rocket=$('#rk-rocket');
   fitStrip(crowd,others);
   var need=c.alive.length-c.keep,doom=shuffle(others).slice(0,need),sch=outSched(crowd,doom);
-  var order=shuffle([0,1,2,3,4,5,6,7,8,9,10]),cells=order.map(function(v,j){return '<button class="rk-n" data-n="'+v+'" style="background:'+tileCol(v+j)+'" aria-label="Number '+v+'">'+v+'</button>'});
-  cells.splice(rnd(cells.length+1),0,'<div></div>');pad.innerHTML=cells.join('');pad.style.gridTemplateColumns='repeat(4,1fr)';pad.style.gridTemplateRows='repeat(3,1fr)';
-  var btns=$$('.rk-n',pad),next=10,lastAct=0,tot=0,over=false,hintOn=false,bad=false,launched=false;
-  CURF=function(){return{id:'rocket',next:next,over:over,launched:launched,t:tot}};
+  var FROM=d.rkFrom,seqN=[];for(var q0=0;q0<=FROM;q0++)seqN.push(q0);var order=shuffle(seqN),cells=order.map(function(v,j){return '<button class="rk-n" data-n="'+v+'" style="background:'+tileCol(v+j)+'" aria-label="Number '+v+'">'+v+'</button>'});
+  if(cells.length%4)cells.splice(rnd(cells.length+1),0,'<div></div>');pad.innerHTML=cells.join('');pad.style.gridTemplateColumns='repeat(4,1fr)';pad.style.gridTemplateRows='repeat('+Math.ceil(cells.length/4)+',1fr)';
+  var btns=$$('.rk-n',pad),next=FROM,lastAct=0,tot=0,over=false,hintOn=false,bad=false,launched=false;
+  CURF=function(){return{id:'rocket',from:FROM,next:next,over:over,launched:launched,t:tot}};
   btns.forEach(function(b){b.onclick=function(){
     if(over||b.classList.contains('done'))return;var v=+b.getAttribute('data-n');lastAct=tot;btns.forEach(function(x){x.classList.remove('hint')});
-    if(v===next){b.classList.add('done');Snd.play('tick');nextEl.textContent=next>0?next-1:'GO!';stars(pad,b.offsetLeft+10,b.offsetTop,''+v);next--;sch.upd((10-next)/11);if(next<0)bad=false}
+    if(v===next){b.classList.add('done');Snd.play('tick');nextEl.textContent=next>0?next-1:'GO!';stars(pad,b.offsetLeft+10,b.offsetTop,''+v);next--;sch.upd((FROM-next)/(FROM+1));if(next<0)bad=false}
     else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');Snd.play('oops');if(d.blPenalty)tot+=d.blPenalty*.5}
   }});
   sayB(ban,'Get ready!','#fff');await sleep(500);
@@ -2045,11 +2092,11 @@ async function playPlanets(c){
 
 /* ===== NEW ROUND: BALLOON POP (pop the bubbles with the target letter / number; also a 1v1 Final Showdown race) ===== */
 GAMES.balloon={short:'Balloon Pop',nameOf:function(k){return k==='123'?'Number Pop':'Letter Pop'},title:function(k){return k==='123'?'NUMBER<br>POP!':'LETTER<br>POP!'},icon:function(){return IC.balloon()},desc:'Pop the right letter or number',isNew:false,fin:true,maxCut:1,play:function(c){return playBalloon(c)},
-  card:function(r,me){var n=r.kind==='123',f=r.final,t=n?'7':'B';return{hero:HR([HH(IC.balloon('#ff4fa3'),'tile'),HH(IC.balloon('#2f8cff'),'tile'),HH(IC.tile(t,'#ffb21a'),'tile'),HH(IC.balloon('#2fbf4a'),'tile')],'big')+(f?HR([HH(fig(me,'happy'),'run'),HH(IC.tap(),'tapic'),HH(fig(ST.finalOpp==null?(me+13)%37:ST.finalOpp,'happy'),'run')]):HR([HH(fig(me,'happy bounce'),'run'),HH(IC.hand(),'tapic')])),
+  card:function(r,me){var n=r.kind==='123',f=r.final,t=n?'7':'B';return{hero:HR([HH(IC.balloon('#ff4fa3'),'tile'),HH(IC.balloon('#2f8cff'),'tile'),HH(IC.tile(t,'#ffb21a'),'tile'),HH(IC.balloon('#2fbf4a'),'tile')],'big')+(f?HR([HH(fig(me,'happy'),'run'),HH(IC.tap(),'tapic'),HH(fig(ST.finalOpp==null?(me+13)%TOTAL:ST.finalOpp,'happy'),'run')]):HR([HH(fig(me,'happy bounce'),'run'),HH(IC.hand(),'tapic')])),
     rows:[[IC.tile(t,'#ffb21a'),n?'Find the number!':'Find the letter!'],[IC.balloon('#ff4fa3'),'Pop the bubbles!'],[IC.weee(),f?'First to pop 4 wins!':'Too slow? WEEEEE!']],
     help:f?['It is a pop race against one rival!','Tap only the bubbles that show the target '+(n?'number':'letter')+'.','Pop 4 before your rival to become the CHAMPION!','If your rival is faster, you get a soft landing on the bench. WEEEEE!']:['Look at the target '+(n?'number':'letter')+' at the top.','Tap every bubble that shows it before it floats away.','Pop enough of them before the timer ends.','Not enough? You get flung. WEEEEE! Wrong bubbles just wobble on Easy.']}}};
 async function playBalloon(c){
-  var d=D(),fin=!!c.final,others=aiOf(c.alive),opp=fin?(ST.finalOpp!=null?ST.finalOpp:others[0]):null,host=$('#arena-host'),kind=symKind(c),syms=symsOf(kind),goal=d.blGoal,T=fin?d.blTime+6:d.blTime;
+  var d=D(),fin=!!c.final,others=aiOf(c.alive),opp=fin?(ST.finalOpp!=null?ST.finalOpp:others[0]):null,host=$('#arena-host'),kind=symKind(c),syms=symsOf(kind,d.blMax),goal=d.blGoal,T=fin?d.blTime+6:d.blTime;
   var tgt=pick(syms);
   host.innerHTML='<div class="timerbar"><i id="bl-tbar"></i></div><div class="bl">'+(fin?vsBar(ST.you,opp,goal):'<div class="hop-crowd" id="bl-crowd"></div>')+'<div class="msgbar" id="bl-msg"><span>Pop the</span><div class="chip2" style="background:#ff4fa3">'+tgt+'</div><span id="bl-cnt">0 / '+goal+'</span></div><div class="bl-sky" id="bl-sky"></div></div><div class="banner outline" id="bl-ban" style="top:34%"></div>';
   await sleep(40);
@@ -2063,9 +2110,9 @@ async function playBalloon(c){
     var b={dead:false},sz=rr(66,82),wantT=Math.min(goal-popped,3)>liveT();
     b.isT=wantT||(liveT()<1);b.sym=b.isT?tgt:pick(syms.filter(function(s){return s!==tgt}));
     var el=document.createElement('button');el.className='bub';el.setAttribute('data-sym',b.sym);el.setAttribute('data-t',b.isT?'1':'0');el.setAttribute('aria-label','Bubble '+b.sym);
-    el.style.cssText='width:'+sz+'px;height:'+sz+'px;font-size:'+(sz*.55)+'px;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55),'+pick(cols)+' 60%)';el.textContent=b.sym;
+    el.style.cssText='width:'+sz+'px;height:'+sz+'px;font-size:'+(sz*(b.sym.length>1?.45:.55))+'px;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.55),'+pick(cols)+' 60%)';el.textContent=b.sym;
     b.el=el;b.sz=sz;b.x=rr(2,Math.max(3,W-sz-2));b.base=b.x;b.y=initial?rr(0,H-sz):H+rr(0,40);b.ph=rr(0,6.28);b.vy=H*d.blSpeed*rr(.85,1.2);
-    el.onclick=function(){hit(b)};sky.appendChild(el);bubs.push(b);return b;
+    el.style.left=b.x+'px';el.style.top=b.y+'px';el.onclick=function(){hit(b)};sky.appendChild(el);bubs.push(b);return b;
   }
   function hit(b){
     if(over||b.dead)return;
@@ -2077,7 +2124,7 @@ async function playBalloon(c){
   await sleep(350);
   await until(function(){return popped>=goal||(fin&&oppN>=goal)},T,function(dt,t){
     tt=t+pen;tbar.style.transform='scaleX('+Math.max(0,1-tt/T)+')';
-    bubs.forEach(function(b){b.y-=b.vy*dt;b.x=clamp(b.base+Math.sin(t*1.4+b.ph)*10,0,W-b.sz);if(b.y<-b.sz-4){b.el.remove();b.dead=true}b.el.style.transform='translate('+b.x+'px,'+b.y+'px)'});
+    bubs.forEach(function(b){b.y-=b.vy*dt;b.x=clamp(b.base+Math.sin(t*1.4+b.ph)*10,0,W-b.sz);if(b.y<-b.sz-4){b.el.remove();b.dead=true}b.el.style.left=b.x+'px';b.el.style.top=b.y+'px'});
     var before=bubs.length;bubs=bubs.filter(function(b){return !b.dead});for(var q=bubs.length;q<NB;q++)mk(false);
     if(fin){aiNext-=dt;if(aiNext<=0&&oppN<goal){oppN++;setDots('vs-op',oppN);aiNext=rr(d.blAi[0],d.blAi[1]);Snd.play('tick')}}
     if(tt>=T)return true;
@@ -2096,9 +2143,9 @@ async function playBalloon(c){
 /* ===== NEW ROUND + FINAL: JUMP ROPE (two friends swing the rope; tap JUMP on the tick; the final is 1v1: who jumps longest) ===== */
 IC.jump=function(){return svg('0 0 48 48','<path d="M6 30Q24 -8 42 30" fill="none" stroke="'+INKC+'" stroke-width="7" stroke-linecap="round"/><path d="M6 30Q24 -8 42 30" fill="none" stroke="#e9a85a" stroke-width="3.500" stroke-linecap="round" stroke-dasharray="4 3"/><circle cx="6" cy="31" r="4" fill="#ff7a1a" stroke="'+INKC+'" stroke-width="2.500"/><circle cx="42" cy="31" r="4" fill="#ff7a1a" stroke="'+INKC+'" stroke-width="2.500"/><circle cx="24" cy="24" r="5" fill="#ffd9a8" stroke="'+INKC+'" stroke-width="2.600"/><path d="M24 29v7M24 31l-6-3M24 31l6-3M24 36l-5 6M24 36l5 6" fill="none" stroke="'+INKC+'" stroke-width="3" stroke-linecap="round"/>')};
 GAMES.rope={short:'Jump Rope',title:function(){return 'JUMP<br>ROPE!'},icon:function(){return IC.jump()},desc:'Tap JUMP on the beat over the rope',isNew:true,fin:true,maxCut:1,play:function(c){return playRope(c)},
-  card:function(r,me){var f=r.final,rv=ST.finalOpp===undefined||ST.finalOpp===null?(me+13)%37:ST.finalOpp;
+  card:function(r,me){var f=r.final,rv=ST.finalOpp===undefined||ST.finalOpp===null?(me+13)%TOTAL:ST.finalOpp;
     return{hero:(f?HR([HH(fig(me,'happy bounce'),'run'),HH(IC.jump(),'tile'),HH(fig(rv,'happy bounce'),'run')],'big')+HR([HH(IC.tap(),'tapic'),HH(IC.trophy(),'trophyic')])
-      :HR([HH(fig((me+5)%37,'happy wave'),'run'),HH(IC.jump(),'tile'),HH(fig((me+9)%37,'happy wave'),'run')],'big')+HR([HH(IC.tile('tick','#ffb21a'),'tile'),HH(IC.arrow(),'arr'),HH(fig(me,'happy bounce'),'run'),HH(IC.foam(),'foam')])),
+      :HR([HH(fig((me+5)%TOTAL,'happy wave'),'run'),HH(IC.jump(),'tile'),HH(fig((me+9)%TOTAL,'happy wave'),'run')],'big')+HR([HH(IC.tile('tick','#ffb21a'),'tile'),HH(IC.arrow(),'arr'),HH(fig(me,'happy bounce'),'run'),HH(IC.foam(),'foam')])),
     rows:f?[[IC.tile('tick','#ffb21a'),'Tap JUMP on the tick!'],[IC.jump(),'Jump longer than your rival!'],[IC.trophy(),'Win the trophy!']]
       :[[IC.tile('tick','#ffb21a'),'Tick! Tap JUMP!'],[IC.jump(),'Hop over every swing!'],[IC.weee(),'Touch the rope? WEEEEE!']],
     help:f?['It is just you and one rival, and the rope keeps going faster!','Listen for the TICK (and watch the rope). Tap JUMP right when you hear it.','Jump over every swing. Whoever jumps longest wins the trophy!','If the rope gets you, you get flung into soft foam. WEEEEE! Easy mode forgives your first mistake.']
@@ -2413,6 +2460,7 @@ function startShow(you,random){
   ST.phase='intro';setLeft(ST.alive.length);
   $('#tagline').innerHTML=taglineText();
   $('#plan-line').textContent=(ST.plan.length-1)+' rounds + FINAL';
+  $('#lineup').classList.toggle('xl',ST.alive.length>40);
   $('#lineup').innerHTML=ST.alive.map(function(l,k){return '<div>'+fig(l,'happy',l===you?'me':'')+'</div>'}).join('');
   $$('#lineup .fg').forEach(function(f,k){f.style.animationDelay=(k*0.04)+'s,'+(k*0.05)+'s'});
   show('intro');
@@ -2548,7 +2596,7 @@ window.__LG={
   genRun:function(kind,diff,n){return genRun(kind,diff,n)},
   practice:function(id){return startPractice(id)},
   games:function(){return enabledGames()},gameIds:GAMEORDER.slice(),
-  names:NAMES.slice(),words:WORDS,total:TOTAL,
+  names:NAMES.slice(),words:WORDS,total:TOTAL,fig:function(i,c){return fig(i,c)},
 
   iconHTML:function(){return '<div id="icon" style="width:180px;height:180px;background:linear-gradient(#58c4ff,#b5ecff 62%,#4fc23a 62.4%);position:relative;overflow:hidden"><div style="position:absolute;left:-2px;top:34px;width:62px;height:88px">'+fig(0,'happy')+'</div><div style="position:absolute;left:58px;top:44px;width:64px;height:90px">'+fig(11,'happy')+'</div><div style="position:absolute;left:112px;top:34px;width:62px;height:88px">'+fig(19,'happy')+'</div><div style="position:absolute;left:0;right:0;top:4px;text-align:center;font:900 30px Arial Black,Arial,sans-serif;color:#fff;text-shadow:2px 2px 0 #2b2250,-2px 2px 0 #2b2250,2px -2px 0 #2b2250,-2px -2px 0 #2b2250,0 4px 0 #2b2250">LETTER GAMES</div><div style="position:absolute;left:0;right:0;top:128px;text-align:center;font:900 30px Arial Black,Arial,sans-serif;color:#ffd23d;text-shadow:2px 2px 0 #2b2250,-2px 2px 0 #2b2250,2px -2px 0 #2b2250,-2px -2px 0 #2b2250">WEEEEE!</div></div>'}
 };
