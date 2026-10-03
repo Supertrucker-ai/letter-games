@@ -526,8 +526,18 @@ button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 .hs-hid .fg{width:100%}.hs-hid .fg.hop{animation:bnc .35s 4 alternate}
 .hs-eye{position:absolute;right:-8%;top:-14%;width:38px;height:38px;z-index:5;display:none;animation:tf2 .5s ease-in-out infinite alternate}
 @keyframes tf2{to{transform:translateY(-4px) scale(1.12)}}
-.hs.peeked .hs-eye{display:block}
-.hs.peeked{outline:4px solid #ffd23d;outline-offset:-2px}
+.hs-eye{width:46px;height:46px;right:-4%;top:-10%}
+.hs.peeked .hs-eye{display:block;animation:eyep .45s ease-in-out infinite alternate}
+@keyframes eyep{to{transform:scale(1.28) rotate(-6deg)}}
+.hs.peeked{outline:5px solid #ff5a2a;outline-offset:-2px;background:rgba(255,90,42,.28);animation:pkp .6s infinite alternate}
+@keyframes pkp{to{background:rgba(255,90,42,.5)}}
+.hs-look{display:none;position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);z-index:6;background:#ff5a2a;color:#fff;font-weight:900;font-size:11px;line-height:1;padding:4px 7px;border-radius:99px;border:2px solid #fff;white-space:nowrap;pointer-events:none}
+.hs.peeked .hs-look{display:block}
+.hs.safe::after{content:'\2726';position:absolute;left:8px;top:4px;font-size:22px;color:#ffe23d;text-shadow:0 0 6px #fff,0 0 2px #b07b00;animation:twk 1s infinite alternate;pointer-events:none;z-index:6}
+.hs.safe:nth-child(2n)::after{left:auto;right:10px;animation-delay:.4s}
+@keyframes twk{from{opacity:.25;transform:scale(.7)}to{opacity:1;transform:scale(1.2)}}
+.hs.go:not(.peeked):not(.mine){animation:gop 1s infinite alternate}
+@keyframes gop{to{background:rgba(255,255,255,.34)}}
 .hs.mine{background:rgba(255,235,120,.5);outline:4px solid #2fbf4a;outline-offset:-2px}
 .hs.look{background:rgba(255,255,255,.65);animation:lookp .3s infinite alternate}
 @keyframes lookp{to{transform:scale(1.05)}}
@@ -1297,7 +1307,7 @@ var DIFF={
     rkTime:18,rkHint:99,pmPairs:4,pmTime:30,pmPeek:1.5,
     blGoal:5,blTime:20,blSpeed:.2,blAi:[1.8,2.8],blPenalty:1.5,
     rpGoal:12,rpAir:.54,rpClear:.34,rpLives:0,rpInt:[1.7,1.6,1.5,1.45,1.4,1.35,1.3,1.25,1.2,.8,.8,.8],rpFinInt:[1.7,1.6,1.5,1.45,1.4,1.35,1.3,1.25,1.2,1.1,1.0,.9,.85,.8],rpFinFail:[9,13],
-    hdSpots:8,hdCheck:5,hdGlance:4,hdCount:.55,hdMoves:1,hdIdle:99,skSpots:8,skHiders:4,skTime:17,skPenalty:1.5,skHint:99,skDecoy:1}
+    hdSpots:8,hdCheck:5,hdGlance:4,hdCount:.55,hdMoves:1,hdIdle:4,skSpots:8,skHiders:4,skTime:17,skPenalty:1.5,skHint:99,skDecoy:1}
 };
 function D(){return DIFF[ST.diff]||DIFF.easy}
 /* GAMES: every mini-game registers here (picker name, picture, final-capable flag, max share of the field it can cut, play + card fns) */
@@ -2253,12 +2263,12 @@ GAMES.hide={short:'Hide and Seek',nameOf:function(){return 'Hide and Seek'},titl
       help:['This time YOU are the seeker! Friends are hiding in the silly spots.','Listen for giggles. A spot that wiggles and says HEE HEE has a hider!','Tap a spot to look inside. Find every hider before the timer ends.','If time runs out you get flung. WEEEEE! Easy mode gives you plenty of time and a glow hint.']};
     return{hero:HR([HH(HSART.bush(),'tile'),HH(HSART.rocket(),'tile'),HH(HSART.blanket(),'tile'),HH(HSART.cloud(),'tile')],'big')+HR([HH(IC.countdown(),'tile'),HH(IC.eye(),'tile'),HH(fig(me,'happy bounce'),'run')]),
       rows:[[IC.countdown(),'Seeker counts to 10!'],[IC.hide(),'Tap a spot to hide!'],[IC.eye(),'Skip the peeked spots!']],
-      help:['The seeker covers their eyes and counts out loud: 1, 2, 3... up to 10.','Tap a hiding spot to hide there. You can move ONCE while the seeker counts.','Watch the seeker! When an eye pops up on a spot, the seeker peeked there and will look inside. Do not hide there!','If the seeker finds you, you get flung. WEEEEE! Easy mode: the seeker only checks a few spots.']}}};
+      help:['The seeker covers their eyes and counts out loud: 1, 2, 3... up to 10.','First the seeker peeks. A spot with a pulsing eye says SEEKER LOOKS HERE! Do not hide there!','Tap a spot WITHOUT an eye to hide. The count starts when you tap, so take your time. You can move once.','If the seeker finds you, you get flung. WEEEEE! Easy mode: the seeker only checks a few spots.']}}};
 function hsGrid(field,n){
   var rows=Math.ceil(n/2);field.style.display='grid';field.style.gridTemplateColumns='repeat(2,1fr)';field.style.gridTemplateRows='repeat('+rows+',minmax(0,1fr))';
   var kinds=shuffle(HSKINDS).slice(0,n),els=[];
   kinds.forEach(function(k,i){var b=document.createElement('button');b.className='hs';b.setAttribute('data-s',i);b.setAttribute('data-k',k[0]);b.setAttribute('aria-label',k[1]);
-    b.innerHTML='<div class="hs-box"><div class="hs-hid"></div><div class="hs-art">'+HSART[k[0]]()+'</div><div class="hs-eye">'+IC.eye()+'</div><div class="hs-pop"></div></div><b class="hs-nm">'+k[1]+'</b>';field.appendChild(b);els.push(b)});
+    b.innerHTML='<div class="hs-box"><div class="hs-hid"></div><div class="hs-art">'+HSART[k[0]]()+'</div><div class="hs-eye">'+IC.eye()+'</div><div class="hs-look">Seeker looks here!</div><div class="hs-pop"></div></div><b class="hs-nm">'+k[1]+'</b>';field.appendChild(b);els.push(b)});
   return{kinds:kinds,els:els};
 }
 function hsPop(el,ids,label,cls){ // the found characters pop out of a hiding spot
@@ -2274,37 +2284,53 @@ async function playHide(c){
   seekBox.innerHTML=fig(seekerL,'happy')+'<b class="hs-tag">SEEKER</b>';
   var need=c.alive.length-c.keep,doom=shuffle(hiders).slice(0,Math.min(need,hiders.length));
   var order=shuffle(spots.map(function(_,i){return i})).slice(0,d.hdCheck),glanceN=Math.min(d.hdGlance,order.length);
-  var glances={};for(var g=0;g<glanceN;g++)glances[Math.max(1,Math.round((g+1)*10/(glanceN+1)))]=order[g];
-  var peeked=[],mySpot=null,moves=d.hdMoves,movesUsed=0,count=0,phase='count',caught=false,done=false,idleT=0,hinted=false,found=[],foundBy={};
+  // the checked spots are decided up front and NEVER depend on where the player hides; the first glanceN of them get an eye before the count starts
+  var peeked=[],mySpot=null,moves=d.hdMoves,movesUsed=0,count=0,phase='count',caught=false,done=false,idleT=0,hinted=false,found=[],foundBy={},started=false,waitMax=ST.diff==='easy'?30:20;
   function say(t,col){sayB(ban,t,col)}
   function setMsg(t){msg.innerHTML=t}
   function showMe(){
     spots.forEach(function(s,i){var h=$('.hs-hid',s);if(i===mySpot){if(!h.firstChild)h.innerHTML=fig(ST.you,'','','<div class="youtag" style="top:-34%">YOU</div>');s.classList.add('mine')}else{h.innerHTML='';s.classList.remove('mine')}});
   }
-  CURF=function(){return{id:'hide',mode:'hide',phase:phase,count:count,n:n,S:order.slice(),peeked:peeked.slice(),glanceN:glanceN,mySpot:mySpot,moves:moves,movesUsed:movesUsed,caught:caught,found:found.slice(),done:done,seeker:seekerL,kinds:G.kinds.map(function(k){return k[0]})}};
+  CURF=function(){return{id:'hide',mode:'hide',phase:phase,count:count,n:n,S:order.slice(),peeked:peeked.slice(),glanceN:glanceN,mySpot:mySpot,moves:moves,movesUsed:movesUsed,started:started,caught:caught,found:found.slice(),done:done,seeker:seekerL,kinds:G.kinds.map(function(k){return k[0]})}};
   spots.forEach(function(s,i){s.onclick=function(){
     if(phase!=='count'||done)return;idleT=0;
     if(mySpot===i)return;
-    if(mySpot!==null){if(moves<=0){Snd.play('oops');s.classList.remove('shk2');void s.offsetWidth;s.classList.add('shk2');say('No more moves!','#ffe23d');return}moves--;movesUsed++}
+    if(mySpot!==null){
+      var free=peeked.indexOf(mySpot)>=0; // running away from a peeked spot is always free
+      if(!free){if(moves<=0){Snd.play('oops');s.classList.remove('shk2');void s.offsetWidth;s.classList.add('shk2');say('No more moves!','#ffe23d');return}moves--;movesUsed++}
+    }
     mySpot=i;Snd.play('hop',2);showMe();
     spots.forEach(function(x){x.classList.remove('pulse')});
-    setMsg(peeked.indexOf(i)>=0?'<b>Careful!</b> The seeker peeked there!'+(moves>0?'<small>You can move once.</small>':'<small>No more moves.</small>'):(moves>0?'<b>Good spot!</b><small>You can move <b>once</b>.</small>':'<b>Hiding!</b><small>No more moves. Stay put!</small>'));
+    setMsg(peeked.indexOf(i)>=0?'<b>Careful!</b> The seeker will look there!<small>Tap a spot without an eye.</small>':(started?(moves>0?'<b>Good spot!</b><small>You can move <b>once</b>.</small>':'<b>Hiding!</b><small>No more moves. Stay put!</small>'):'<b>Good spot!</b><small>No eye here. The seeker counts now!</small>'));
   }});
-  setMsg('<b>Pick a spot to hide!</b><small>The seeker counts to 10.</small>');say('Hide!','#fff');
+  say('Hide!','#fff');setMsg('<b>The seeker is peeking...</b><small>Watch for the eyes!</small>');
   await sleep(500);
-  // ---- the seeker counts out loud (on-screen numbers) and sneaks peeks ----
+  // ---- 1) the seeker peeks: the spots it WILL look in get a pulsing eye + "Seeker looks here!" (all revealed before anyone has to choose) ----
+  for(var g=0;g<glanceN;g++){
+    var gs=order[g];peeked.push(gs);fs(seekBox.firstChild,'');spots[gs].classList.add('peeked');Snd.play('peek');say('PEEK!','#ffd23d');
+    setMsg('<b>The seeker peeked at the '+G.kinds[gs][1]+'!</b><small>It will look there.</small>');
+    setTimeout(function(){fs(seekBox.firstChild,'happy')},500*SPEED+120);
+    await sleep(650);
+  }
+  if(ST.diff==='easy')spots.forEach(function(x,i){if(order.indexOf(i)<0)x.classList.add('safe')});
+  // ---- 2) YOUR turn: the count does not start until you tap a spot (a gentle nudge if you wait; if you never tap, a safe spot is picked for you) ----
+  setMsg('<b>Tap a spot to hide!</b><small>Not the ones with an eye.</small>');say('Your turn!','#fff');
+  spots.forEach(function(x){x.classList.add('go')});
+  await until(function(){return mySpot!==null},waitMax,function(dt){idleT+=dt;if(!hinted&&idleT>(d.hdIdle>90?4:d.hdIdle)){hinted=true;spots.forEach(function(x,i){if(peeked.indexOf(i)<0)x.classList.add('pulse')});say('Tap a spot!','#fff');setMsg('<b>Tap a spot to hide!</b><small>The seeker waits for you.</small>')}});
+  if(mySpot===null){ // nobody tapped: hide somewhere fair (always a spot the seeker will not check)
+    var fair=spots.map(function(_,i){return i}).filter(function(i){return order.indexOf(i)<0});
+    mySpot=pick(fair);showMe();Snd.play('hop',2);say('I hid you!','#ffe23d');setMsg('<b>You hid in the '+G.kinds[mySpot][1]+'!</b><small>You did not tap, so I picked a spot.</small>');await sleep(700);
+  }
+  spots.forEach(function(x){x.classList.remove('pulse','go')});
+  started=true;
+  setMsg(moves>0?'<b>The seeker counts!</b><small>You can move <b>once</b>.</small>':'<b>The seeker counts!</b>');say('Close your eyes... 1, 2, 3!','#ff8ad8');
+  // ---- 3) the seeker counts out loud (on-screen numbers) ----
   for(var i=1;i<=10;i++){
     count=i;num.textContent=i;var nb=$('#hs-numbox');nb.classList.remove('bump');void nb.offsetWidth;nb.classList.add('bump');Snd.play('count',i);
-    if(glances[i]!==undefined){
-      var gs=glances[i];peeked.push(gs);fs(seekBox.firstChild,'');spots[gs].classList.add('peeked');Snd.play('peek');say('PEEK!','#ffd23d');
-      setMsg('<b>The seeker peeked at the '+G.kinds[gs][1]+'!</b><small>It will look there.</small>');
-      setTimeout(function(){fs(seekBox.firstChild,'happy')},500*SPEED+120);
-    }
-    await until(function(){return false},d.hdCount,function(dt){idleT+=dt;if(mySpot===null&&!hinted&&idleT>d.hdIdle){hinted=true;spots.forEach(function(x){x.classList.add('pulse')});say('Tap a spot!','#fff');setMsg('<b>Tap a spot to hide!</b>')}});
+    await until(function(){return false},d.hdCount,function(dt){idleT+=dt});
   }
   phase='search';
-  if(mySpot===null){var safeS=spots.map(function(_,i){return i}).filter(function(i){return order.indexOf(i)<0}),pool=ST.diff==='easy'&&safeS.length?safeS:spots.map(function(_,i){return i});mySpot=pick(pool);showMe();setMsg('<b>Quick! You hid in the '+G.kinds[mySpot][1]+'.</b>')}
-  spots.forEach(function(x){x.classList.remove('pulse');x.disabled=true});
+  spots.forEach(function(x){x.classList.remove('pulse','safe','go');x.disabled=true});
   caught=order.indexOf(mySpot)>=0;
   var flungSet=doom.slice(),pardon=null;if(caught&&flungSet.length){pardon=pick(flungSet);flungSet=flungSet.filter(function(l){return l!==pardon})}
   // everybody else is already tucked into the spots: the flung ones are at checked spots, the rest at unchecked ones
@@ -2433,7 +2459,7 @@ async function startPractice(id){
   ST.you=you;ST.practice=true;ST.out=false;ST.watch=false;ST.bench=[];ST.round=0;ST.plan=[];ST.finalOpp=null;
   var ids=fieldIds();if(ids.indexOf(you)<0)ids=fieldIds('both');
   var alive=[you].concat(shuffle(ids.filter(function(l){return l!==you})).slice(0,9));ST.alive=alive;ST.fieldN=alive.length;
-  if(id==='hide')ST.hsMode=ST.hsMode==='hide'?'seek':'hide';
+  if(id==='hide')ST.hsMode=ST.hsForce||(ST.hsMode==='hide'?'seek':'hide');
   var g=GAMES[id],kind=kindFor(id),r={id:id,name:'Practice',keep:5,final:false,kind:kind,short:g.nameOf?g.nameOf(kind):g.short,title:g.title(kind)};
   try{
     setLeft(alive.length);$('#card-rd').textContent='Practice';$('#play-rd').textContent='Practice';
